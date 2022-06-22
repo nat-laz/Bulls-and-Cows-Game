@@ -9,6 +9,7 @@ const checkForDuplicatesNum = (numbers) => {
   };
   
   const validatePlayerInput = (input) => {
+   
     if (input.length !== 4 || checkForDuplicatesNum(input)) {
       console.log(`Invalid entry or duplicated number, please try again.`);
       return false;
