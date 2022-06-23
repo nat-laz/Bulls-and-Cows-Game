@@ -1,6 +1,5 @@
-# Bulls and Cows
+# Bulls and Cows Game
 
-In this project we will build a two player game that is called **Bulls and Cows**.
 
 ![cow icon](assets/cow.svg) ![bull icon](assets/bull.svg)
 
@@ -64,3 +63,19 @@ Make sure to validate the input to a certain extent. For example:
 - it must be 4 digits
 - each of the 4 digits must be unique
 
+## Extra
+
+Let's make this game even better!
+
+If you have the core of the game up and running, 
+here are some cool features you can add next:
+
+- Number of attempts to guess the secret number: There will be no limit of guessing, but we can keep track of how many attempts the player needed to solve the puzzle.
+- User's name: Let's get the player's name, if they want to share. You can then use the name in the congratulations and  failure messages and hints. If no name is provided, you can use a default like `Player` or `Stranger`. 
+- Another round: Once the player has guessed the number correctly, you can ask them to play another round if they want to and restart the game.
+- Another round stats: If the user plays multiple rounds, you display the total of games played and the number of attempts for each game.
+- Maximum number of attempts: If the user cannot guess in N attemps, they lose the game.
+- Configurable game level: The user can choose if they want to play easy or difficult mode. In easy mode, for example, there could be no lmit on the number of attempts, while the difficult level could have a limit.
+
+ 
+_Download or clone it and give it a try! Have Fun 🎉_
