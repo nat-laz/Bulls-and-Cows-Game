@@ -1,6 +1,14 @@
 const prompt = require("prompt-sync")({ sigint: true });
 const validatePlayerInput = require("./validation.js");
-
+const chalk = require("chalk");
+const greeting = chalk.bold.blue;
+const nameQuestion = chalk.cyan;
+const name = chalk.red;
+const hint = chalk.yellow;
+const win = chalk.bold.green;
+const lose = chalk.bold.red;
+const result = chalk.blackBright;
+const again = chalk.magentaBright;
 
 //------------------------------ Computer Generated Number --------------------------\\
 const secretNumber = () => {
@@ -14,7 +22,6 @@ const secretNumber = () => {
   return seceretCode.flat();
 };
 
-
 //-------------------- Convert number entered by Player in Array --------------------\\
 const arrayFromNumber = (num) => {
   return String(num)
@@ -23,7 +30,6 @@ const arrayFromNumber = (num) => {
       return Number(num);
     });
 };
-
 
 //------------------------------ Compare this 2 arrays --------------------------\\
 const compareTwoArray = (a, b) => {
@@ -35,10 +41,9 @@ const compareTwoArray = (a, b) => {
   );
 };
 
-console.log(`Welcome to Bulls and Cows Game ! \n`);
-let providedName = prompt(` Please enter your name: `);
+console.log(greeting(`Welcome to Bulls and Cows Game ! \n`));
+let providedName = prompt(nameQuestion(` Please enter your name: `));
 let resultOfTheGames = [];
-
 
 //--------------------------------- MAIN FUNCTION ------------------------------\\
 const game = () => {
@@ -47,27 +52,39 @@ const game = () => {
   let attempts = 0;
   const computerNumberArray = secretNumber();
 
-  const playerName = providedName.length ? providedName : `Stranger`;
-  let level = "";
+  const playerName = name(providedName.length ? providedName : `Stranger`);
+  let level = prompt(
+    result("Choose difficulty level: \n") +
+      hint(" [a] easy - Unlimited number of attempts \n ") +
+      lose(
+        "[b] difficult - The player gets 7 chances to correctly guess the entire number \n "
+      )
+  );
 
   while (level.toLowerCase() !== "a" && level.toLowerCase() !== "b") {
     level = prompt(
-      `Choose difficulty level:  [a] easy - Unlimited number of attempts /  [b] difficult - The player gets 7 chances to correctly guess the entire number  `
+      result("Choose difficulty level: \n") +
+        hint(" [a] easy - Unlimited number of attempts \n ") +
+        lose(
+          "[b] hard - The player gets 7 chances to correctly guess the entire number \n "
+        )
     );
   }
 
-  let playerNumberArray = arrayFromNumber(prompt(`Enter your number:  `));
+  let playerNumberArray = arrayFromNumber(
+    prompt(nameQuestion(`Enter your number:  `))
+  );
 
   while (!compareTwoArray(computerNumberArray, playerNumberArray)) {
     const isValid = validatePlayerInput(playerNumberArray);
     if (isValid) {
       cow = 0;
       bull = 0;
-     
+
       computerNumberArray.some((item) => {
         if (playerNumberArray.includes(item)) cow += 1;
       });
-      
+
       for (i = 0; i < 4; i++) {
         if (computerNumberArray[i] === playerNumberArray[i]) {
           bull += 1;
@@ -76,34 +93,47 @@ const game = () => {
       }
       attempts += 1;
       console.log(
-        `\n ${playerNumberArray.join("")} ---  Hint: ${bull} bull(s) and ${cow} cow(s), round: ${attempts} \n `);
+        hint(
+          `\n ${playerNumberArray.join(
+            ""
+          )} ---  Hint: ${bull} bull(s) and ${cow} cow(s), round: ${attempts} \n `
+        )
+      );
 
-      if (level.toLowerCase() === "b" && attempts === 7) {
-        console.log(`\n...GAME OVER...\n`);
+      if (level.toLowerCase() === "b" && attempts === 3) {
+        console.log(lose(`\n...GAME OVER...\n`));
         resultOfTheGames.push({
           round: resultOfTheGames.length + 1,
           status: "Lose",
           attempts,
         });
-        
 
-        let anotherRound = prompt(`Would you like to play again? [y]/[n]   `);
+        let anotherRound = prompt(
+          again(`Would you like to play again? [y]/[n]   `)
+        );
         if (anotherRound.toLowerCase() === "y") {
           return game();
         } else {
-          console.log(`\n ----------- Game results ---------- \n`);
+          console.log(result(`\n ----------- Game results ---------- \n`));
           return console.table(resultOfTheGames);
         }
       }
-      playerNumberArray = arrayFromNumber(prompt(`Enter your number:  `));
+      playerNumberArray = arrayFromNumber(
+        prompt(nameQuestion(`Enter your number:  `))
+      );
     } else {
-      playerNumberArray = arrayFromNumber(prompt(`Enter your number:  `));
+      playerNumberArray = arrayFromNumber(
+        prompt(nameQuestion(`Enter your number:  `))
+      );
     }
   }
 
-
   attempts += 1;
-  console.log( ` \n >>> Congrats, ${playerName} <<< \n You WON in: ${attempts} round(s) \n`);
+  console.log(
+    win(
+      ` \n >>> Congrats, ${playerName} <<< \n You WON in: ${attempts} round(s) \n`
+    )
+  );
 
   resultOfTheGames.push({
     round: resultOfTheGames.length + 1,
@@ -111,11 +141,13 @@ const game = () => {
     attempts,
   });
 
-  let anotherRound = prompt(`Would you like to play again? [y]/[n]     `);
+  let anotherRound = prompt(
+    again(`Would you like to play again? [y]/[n]     `)
+  );
   if (anotherRound.toLowerCase() === "y") {
     return game();
   } else {
-    console.log(`\n ----------- Game results ---------- \n `);
+    console.log(result(`\n ----------- Game results ---------- \n `));
     console.table(resultOfTheGames);
   }
 };

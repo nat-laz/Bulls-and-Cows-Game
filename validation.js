@@ -3,8 +3,10 @@ const checkForDuplicatesNum = (numbers) => {
 
   let booleanArray = numbers.map((el) => {
     copyNumb.shift();
+
     return copyNumb.includes(el);
   });
+
   return booleanArray.includes(true);
 };
 
